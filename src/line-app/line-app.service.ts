@@ -67,18 +67,22 @@ export class LineAppService {
         ) {
           const id = groupId == 'undefined' ? userId : groupId;
 
-          await this.queueForChat(requestMessage, id);
           const responseIndex = Math.floor(
             Math.random() * this.response.length,
           );
+
           this.logger.log(`responseIndex ${responseIndex}`);
+
           const replyMessage = {
             type: 'text',
             text: this.response[responseIndex],
           };
 
           this.logger.log(`request message ${requestMessage} to ${id}`);
-          this.replyMessage(replyMessage, replyToken);
+          await this.replyMessage(replyMessage, replyToken);
+
+          this.logger.log(`queuing message ${requestMessage} to ${id}`);
+          await this.queueForChat(requestMessage, id);
         }
       } else {
         return;
