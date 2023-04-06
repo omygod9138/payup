@@ -65,8 +65,8 @@ export class LineAppService {
           requestMessage.includes('師爺') &&
           requestMessage.replace('師爺', '').trim().length > 0
         ) {
-          const id = groupId == 'undefined' ? userId : groupId;
-
+          const id = event.source === 'user' ? userId : groupId;
+          this.logger.log(`id: ${id}`);
           const responseIndex = Math.floor(
             Math.random() * this.response.length,
           );
